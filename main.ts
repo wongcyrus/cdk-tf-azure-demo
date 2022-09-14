@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { App, TerraformStack } from 'cdktf';
+import { App, TerraformOutput, TerraformStack } from 'cdktf';
 import { AzurermProvider, VirtualNetwork, ResourceGroup, LinuxVirtualMachine, Subnet, NetworkInterface } from "./.gen/providers/azurerm"
 import { RandomProvider, Password } from "./.gen/providers/random"
 
@@ -67,6 +67,11 @@ class AzureAppInfra extends TerraformStack {
         sku: "16.04-LTS",
         version: "latest"
       }
+    })
+
+    new TerraformOutput(this, "TerraformOutput", {
+      sensitive: true,
+      value: password.result
     })
 
   }
